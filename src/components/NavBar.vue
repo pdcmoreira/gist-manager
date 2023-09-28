@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import AppLogo from '@/components/AppLogo.vue'
+import InputButton from '@/components/InputButton.vue'
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import AppLogo from '@/components/AppLogo.vue'
         <AppLogo />
       </RouterLink>
 
-      <button>Get started</button>
+      <InputButton variant="primary">Get started</InputButton>
     </nav>
   </header>
 </template>
