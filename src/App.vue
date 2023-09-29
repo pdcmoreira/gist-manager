@@ -12,7 +12,7 @@ const userStore = useUserStore()
 const { authorizeUrl, isLoading } = useGithubOAuthFlow()
 
 const logout = () => {
-  userStore.accessToken = null
+  userStore.setToken(null)
 
   router.push({ name: 'home' })
 }

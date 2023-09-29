@@ -35,10 +35,10 @@ export function useGithubOAuthFlow() {
         // Store the token so that it can then be used to perform authenticated requests to the API.
         // https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#3-use-the-access-token-to-access-the-api
         try {
-          userStore.accessToken = await requestAccessToken(to.query.code)
+          userStore.setToken(await requestAccessToken(to.query.code))
         } catch (error) {
           // TODO: properly handle errors
-          userStore.accessToken = null
+          userStore.setToken(null)
         }
 
         loading.value = false
