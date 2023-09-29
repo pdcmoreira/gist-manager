@@ -1,22 +1,19 @@
 import { buildUrlWithQuery } from '@/utilities/url'
 import { useUserStore } from '@/stores/user'
 
-const GH_API_URL = 'https://github.com/'
+const GH_URL = 'https://github.com/'
+const GH_API_URL = 'https://api.github.com/'
 const GH_CLIENT_ID = import.meta.env.VITE_GH_CLIENT_ID
 const GH_GATEWAY_URL = import.meta.env.VITE_GH_GATEWAY_URL
 const GH_SCOPE = 'gist'
 
 const BASE_HEADERS = {
   'Content-Type': 'application/json',
-  Accept: 'application/json'
+  Accept: 'application/vnd.github+json'
 }
 
-const fetchJson = async (...args) => (await fetch(...args)).json()
-
-const getRouteUrl = (route) => new URL(route, GH_API_URL).href
-
 export const generateAuthorizeUrl = (state) =>
-  buildUrlWithQuery(getRouteUrl('/login/oauth/authorize'), {
+  buildUrlWithQuery(new URL('/login/oauth/authorize', GH_URL).href, {
     client_id: GH_CLIENT_ID,
     scope: GH_SCOPE,
     state
@@ -34,10 +31,12 @@ export const requestAccessToken = async (code) =>
     )
   ).access_token || null
 
+const fetchJson = async (...args) => (await fetch(...args)).json()
+
 const request = async (route, method = 'GET', data = null) => {
   const userStore = useUserStore()
 
-  return fetchJson(getRouteUrl(route), {
+  return fetchJson(new URL(route, GH_API_URL).href, {
     method,
 
     headers: {
