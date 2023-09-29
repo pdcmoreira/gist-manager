@@ -1,16 +1,20 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { useRouter, RouterView } from 'vue-router'
 import { useGithubOAuthFlow } from './composables/useGithubOAuthFlow'
 import { useUserStore } from './stores/user'
 import NavBar from './components/NavBar.vue'
 import InputButton from '@/components/InputButton.vue'
+
+const router = useRouter()
 
 const userStore = useUserStore()
 
 const { authorizeUrl, isLoading } = useGithubOAuthFlow()
 
 const logout = () => {
-  // TODO:
+  userStore.accessToken = null
+
+  router.push({ name: 'home' })
 }
 </script>
 
