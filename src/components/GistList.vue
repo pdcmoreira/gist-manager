@@ -11,12 +11,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="rounded-lg">
     <GistListItem
       v-for="gist in gists"
       :key="gist.id"
       :gist="gist"
-      class="border-b last:border-0"
+      class="border-b first:rounded-t-lg last:rounded-b-lg last:border-0"
     />
   </div>
 </template>
