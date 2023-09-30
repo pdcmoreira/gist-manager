@@ -1,5 +1,5 @@
 <script setup>
-import GistListItem from './GistListItem.vue'
+import GistListItem from '@/components/GistListItem.vue'
 
 const props = defineProps({
   gists: {
@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="rounded-lg">
+  <div class="rounded-lg border border-gray-100 bg-white">
     <GistListItem
       v-for="gist in gists"
       :key="gist.id"

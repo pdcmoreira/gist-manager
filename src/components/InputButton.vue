@@ -51,7 +51,7 @@ const resolvedComponent = computed(() => {
   <component
     :is="resolvedComponent.is"
     v-bind="resolvedComponent.props"
-    class="cursor-pointer rounded-full px-4 py-2 text-sm font-semibold shadow active:shadow-inner"
+    class="inline-block cursor-pointer rounded-full px-4 py-2 text-sm font-semibold shadow active:shadow-inner"
     :class="variant || 'default'"
   >
     <slot />

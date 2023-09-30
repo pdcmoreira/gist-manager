@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import GistBadge from '@/components/GistBadge.vue'
+import GistDetailDate from '@/components/GistDetailDate.vue'
 
 const props = defineProps({
   gist: {
@@ -14,18 +15,11 @@ const mainFile = computed(() => Object.values(props.gist.files)[0])
 const visibility = computed(() => (props.gist.public ? 'Public' : 'Secret'))
 
 const filesCount = computed(() => Object.keys(props.gist.files).length)
-
-const dateDisplay = computed(() => new Date(props.gist.updated_at).toDateString())
-
-const dateDescription = computed(() =>
-  new Date(props.gist.created_at).toJSON() === new Date(props.gist.updated_at).toJSON()
-    ? 'Created at'
-    : 'Updated at'
-)
 </script>
 
 <template>
-  <div
+  <RouterLink
+    :to="{ name: 'gist-details', params: { id: gist.id } }"
     class="flex cursor-pointer justify-between gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
     tabindex="0"
   >
@@ -53,7 +47,7 @@ const dateDescription = computed(() =>
           <span class="font-semibold">{{ mainFile.filename }}</span>
         </div>
 
-        <div class="text-xs text-gray-500">{{ dateDescription }} {{ dateDisplay }}</div>
+        <GistDetailDate :gist="gist" />
       </div>
     </div>
 
@@ -62,5 +56,5 @@ const dateDescription = computed(() =>
 
       <GistBadge>{{ filesCount }} files</GistBadge>
     </div>
-  </div>
+  </RouterLink>
 </template>

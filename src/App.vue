@@ -30,7 +30,7 @@ const logout = () => {
         </InputButton>
 
         <template v-else>
-          <InputButton v-if="$route.name !== 'gists'" variant="primary" :to="{ name: 'gists' }">
+          <InputButton v-if="$route.name === 'home'" variant="primary" :to="{ name: 'gists' }">
             Go to gists
           </InputButton>
 

@@ -52,3 +52,5 @@ const request = async (route, method = 'GET', data = null) => {
 export const fetchAllGists = async () => request('/gists')
 
 export const fetchStarredGists = async () => request('/gists/starred')
+
+export const fetchGistDetails = async (id) => request(`/gists/${id}`)

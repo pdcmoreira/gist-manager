@@ -12,8 +12,6 @@ const router = createRouter({
     },
     {
       path: '/gists',
-      name: 'gists',
-      component: () => import('@/views/GistsView.vue'),
       beforeEnter: (to, from, next) => {
         const userStore = useUserStore()
 
@@ -24,7 +22,20 @@ const router = createRouter({
         }
 
         next()
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'gists',
+          component: () => import('@/views/GistsView.vue')
+        },
+        {
+          path: ':id',
+          name: 'gist-details',
+          component: () => import('@/views/GistDetailsView.vue'),
+          props: true
+        }
+      ]
     },
     // Route declaration only, so that vue-router doesn't complain about missing route.
     // Handled by the authorization flow, which should navigate away from it.
