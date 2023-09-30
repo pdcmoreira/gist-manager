@@ -1,13 +1,25 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { fetchGists as apiFetchGists } from '@/services/githubApi'
+import { fetchAllGists, fetchStarredGists } from '@/services/githubApi'
 
 export const useGistStore = defineStore('gist', () => {
-  const gists = ref([])
+  const allGists = ref([])
+
+  const starredGists = ref([])
+
+  const loading = ref(false)
 
   const fetchGists = async () => {
-    gists.value = await apiFetchGists()
+    loading.value = true
+
+    // Fetch both gist requests in parallel.
+    ;[allGists.value, starredGists.value] = await Promise.all([
+      fetchAllGists(),
+      fetchStarredGists()
+    ])
+
+    loading.value = false
   }
 
-  return { gists, fetchGists }
+  return { allGists, starredGists, fetchGists }
 })
