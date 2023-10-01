@@ -2,6 +2,7 @@
 import { useRouter, RouterView } from 'vue-router'
 import { useGithubOAuthFlow } from './composables/useGithubOAuthFlow'
 import { useUserStore } from './stores/user'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import NavBar from './components/NavBar.vue'
 import InputButton from '@/components/InputButton.vue'
 
@@ -19,8 +20,11 @@ const logout = () => {
 </script>
 
 <template>
-  <!-- TODO: make a pretty loading -->
-  <div v-if="isLoading">Loading...</div>
+  <div v-if="isLoading" class="flex h-full w-full flex-col items-center justify-center">
+    <LoadingSpinner size="xl" />
+
+    <div class="mt-6 text-gray-500">Loading, please wait...</div>
+  </div>
 
   <div v-else class="mx-auto p-4 sm:max-w-6xl sm:p-10">
     <NavBar class="mb-4 sm:mb-10">
