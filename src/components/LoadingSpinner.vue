@@ -6,22 +6,23 @@ const props = defineProps({
     type: String,
     default: 'sm',
     validator: (value) => ['sm', 'xl'].includes(value)
+  },
+
+  padded: {
+    type: Boolean,
+    default: false
   }
 })
 
 const sizeMap = {
-  sm: ['h-5 w-5'],
-  xl: ['h-20 w-20']
+  sm: 'h-5 w-5',
+  xl: 'h-20 w-20'
 }
 
-const classes = computed(() => sizeMap[props.size])
+const classes = computed(() => [sizeMap[props.size], { 'mx-auto my-24': props.padded }])
 </script>
 
 <template>
-  <!--
-    Shamelessly copied from Tailwind's docs:
-    https://tailwindcss.com/docs/animation#spin
-  -->
   <svg
     class="animate-spin text-gray-400"
     :class="classes"
@@ -29,6 +30,10 @@ const classes = computed(() => sizeMap[props.size])
     fill="none"
     viewBox="0 0 24 24"
   >
+    <!--
+      Shamelessly copied from Tailwind's docs:
+      https://tailwindcss.com/docs/animation#spin
+    -->
     <circle
       class="opacity-25"
       cx="12"

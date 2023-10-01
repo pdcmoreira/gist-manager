@@ -1,7 +1,9 @@
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 import { useGistStore } from '@/stores/gist'
 import ContainerCard from '@/components/ContainerCard.vue'
+import FadeTransition from '@/components/FadeTransition.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import InputButton from '@/components/InputButton.vue'
 import GistDetails from '@/components/GistDetails.vue'
 
@@ -14,7 +16,7 @@ const props = defineProps({
 
 const gistStore = useGistStore()
 
-onMounted(() => {
+onBeforeMount(() => {
   gistStore.fetchDetails(props.id)
 })
 
@@ -34,14 +36,17 @@ const details = computed(() => gistStore.gistsDetails.find((gist) => gist.id ===
     </div>
 
     <ContainerCard>
-      <div v-if="isLoading">
-        <!-- TODO: proper loading -->
-        Loading...
-      </div>
+      <FadeTransition>
+        <LoadingSpinner v-if="isLoading" padded />
 
-      <div v-else-if="!details">Not found</div>
+        <div v-else-if="!details" class="flex justify-center px-10 py-24 text-lg">
+          <span>Sorry, this gist is currently not available!</span>
 
-      <GistDetails v-else :details="details" />
+          <span class="ml-2">😢</span>
+        </div>
+
+        <GistDetails v-else :details="details" />
+      </FadeTransition>
     </ContainerCard>
   </div>
 </template>
