@@ -1,10 +1,10 @@
 <script setup>
 import { useRouter, RouterView } from 'vue-router'
-import { useGithubOAuthFlow } from './composables/useGithubOAuthFlow'
-import { useUserStore } from './stores/user'
+import { useGithubOAuthFlow } from '@/composables/useGithubOAuthFlow'
+import { useUserStore } from '@/stores/user'
 import FadeTransition from '@/components/FadeTransition.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
-import NavBar from './components/NavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import InputButton from '@/components/InputButton.vue'
 
 const router = useRouter()
