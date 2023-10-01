@@ -1,4 +1,5 @@
 <script setup>
+import ContainerCard from '@/components/ContainerCard.vue'
 import GistListItem from '@/components/GistListItem.vue'
 
 const props = defineProps({
@@ -11,12 +12,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="rounded-lg border border-gray-100 bg-white">
+  <ContainerCard>
     <GistListItem
       v-for="gist in gists"
       :key="gist.id"
       :gist="gist"
       class="border-b first:rounded-t-lg last:rounded-b-lg last:border-0"
     />
-  </div>
+  </ContainerCard>
 </template>

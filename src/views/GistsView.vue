@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useGistStore } from '@/stores/gist'
+import ContainerCard from '@/components/ContainerCard.vue'
 import InputButton from '@/components/InputButton.vue'
 import GistList from '@/components/GistList.vue'
 
@@ -23,7 +24,7 @@ const isLoading = computed(() => gistStore.loadings.includes('gists'))
         Loading...
       </div>
 
-      <GistList v-else :gists="displayGists" class="shadow-md" />
+      <GistList v-else :gists="displayGists" />
     </div>
 
     <div class="rounded-lg bg-gray-100 p-9 shadow-sm">

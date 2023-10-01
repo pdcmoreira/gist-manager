@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useGistStore } from '@/stores/gist'
+import ContainerCard from '@/components/ContainerCard.vue'
 import InputButton from '@/components/InputButton.vue'
 import GistDetails from '@/components/GistDetails.vue'
 
@@ -32,7 +33,7 @@ const details = computed(() => gistStore.gistsDetails.find((gist) => gist.id ===
       </InputButton>
     </div>
 
-    <div class="rounded-lg border border-gray-100 shadow-md">
+    <ContainerCard>
       <div v-if="isLoading">
         <!-- TODO: proper loading -->
         Loading...
@@ -41,6 +42,6 @@ const details = computed(() => gistStore.gistsDetails.find((gist) => gist.id ===
       <div v-else-if="!details">Not found</div>
 
       <GistDetails v-else :details="details" />
-    </div>
+    </ContainerCard>
   </div>
 </template>
