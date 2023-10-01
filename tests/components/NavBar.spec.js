@@ -42,11 +42,21 @@ describe('NavBar', () => {
     expect(link.findComponent(AppLogo).exists()).toBeTruthy()
   })
 
-  it('displays a "Get started" button', () => {
-    const button = wrapper.find('button')
+  describe('slot:default', () => {
+    it('displays the content', () => {
+      const wrapper = shallowMount(NavBar, {
+        global: {
+          stubs: {
+            RouterLink: MockRouterLink
+          }
+        },
 
-    expect(button.exists()).toBeTruthy()
+        slots: {
+          default: '<div data-test="some-content">Content</div>'
+        }
+      })
 
-    expect(button.text()).toBe('Get started')
+      expect(wrapper.find('[data-test="some-content"]').exists()).toBeTruthy()
+    })
   })
 })

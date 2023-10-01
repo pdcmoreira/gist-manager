@@ -1,4 +1,7 @@
 <script setup>
+import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
+
 const props = defineProps({
   variant: {
     type: String,
@@ -8,17 +11,46 @@ const props = defineProps({
     validator: (value) => !value || ['primary', 'danger'].includes(value)
   },
 
+  to: {
+    type: [String, Object],
+    default: null
+  },
+
   href: {
     type: String,
     default: null
   }
 })
+
+const resolvedComponent = computed(() => {
+  if (props.to) {
+    return {
+      is: RouterLink,
+
+      props: {
+        to: props.to
+      }
+    }
+  }
+
+  if (props.href) {
+    return {
+      is: 'a',
+
+      props: {
+        href: props.href
+      }
+    }
+  }
+
+  return { is: 'button' }
+})
 </script>
 
 <template>
   <component
-    :is="href ? 'a' : 'button'"
-    :href="href"
+    :is="resolvedComponent.is"
+    v-bind="resolvedComponent.props"
     class="cursor-pointer rounded-full px-4 py-2 text-sm font-semibold shadow active:shadow-inner"
     :class="variant || 'default'"
   >
