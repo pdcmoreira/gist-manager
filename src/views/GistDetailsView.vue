@@ -11,6 +11,16 @@ const props = defineProps({
   id: {
     type: String,
     required: true
+  },
+
+  listType: {
+    type: String,
+    default: null
+  },
+
+  listVisibility: {
+    type: String,
+    default: null
   }
 })
 
@@ -23,12 +33,17 @@ onBeforeMount(() => {
 const isLoading = computed(() => gistStore.loadings.includes(`gist-details-${props.id}`))
 
 const details = computed(() => gistStore.gistsDetails.find((gist) => gist.id === props.id))
+
+const backToListRoute = computed(() => ({
+  name: 'gists',
+  query: { type: props.listType, visibility: props.listVisibility }
+}))
 </script>
 
 <template>
   <div>
     <div class="mb-4">
-      <InputButton :to="{ name: 'gists' }">
+      <InputButton :to="backToListRoute">
         <span class="mr-2">&LeftArrow;</span>
 
         Back to list

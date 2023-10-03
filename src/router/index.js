@@ -27,13 +27,38 @@ const router = createRouter({
         {
           path: '',
           name: 'gists',
-          component: () => import('@/views/GistsView.vue')
+          component: () => import('@/views/GistsView.vue'),
+          props: (route) => route.query
         },
         {
           path: ':id',
           name: 'gist-details',
           component: () => import('@/views/GistDetailsView.vue'),
-          props: true
+          beforeEnter: (to, from, next) => {
+            if (from.name === 'gists') {
+              // Save the list query parameters into the target route's query, to build the "back
+              // to list" link
+
+              // Check if query was already saved, to prevent a loop
+              const savedQuery =
+                (!from.query.type && !from.query.visibility) ||
+                to.query['list-type'] ||
+                to.query['list-visibility']
+
+              if (!savedQuery) {
+                const { type, visibility } = from.query
+
+                to.query = { ...to.query, 'list-type': type, 'list-visibility': visibility }
+
+                next(to)
+
+                return
+              }
+            }
+
+            next()
+          },
+          props: (route) => ({ ...route.params, ...route.query })
         }
       ]
     },
