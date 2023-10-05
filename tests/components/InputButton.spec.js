@@ -1,16 +1,15 @@
 import { shallowMount } from '@vue/test-utils'
 import InputButton from '@/components/InputButton.vue'
 
-const baseClasses = [
+const staticClasses = [
   'cursor-pointer',
-  'rounded-full',
-  'px-4',
-  'py-2',
   'text-sm',
   'font-semibold',
   'shadow',
   'active:shadow-inner'
 ]
+
+const baseClasses = [...staticClasses, 'rounded-full', 'px-4', 'py-2']
 
 describe('InputButton', () => {
   const buildWrapper = (options) => shallowMount(InputButton, options)
@@ -29,7 +28,7 @@ describe('InputButton', () => {
       ['primary', 'primary'],
       ['danger', 'danger']
     ])('%s', (variant, variantClass) => {
-      it(`applies the ${variant || 'default'} variant classes`, () => {
+      it(`applies the ${variantClass} class`, () => {
         const button = buildWrapper({ props: { variant } }).find('button')
 
         expect(button.classes()).toContain(variantClass)
@@ -46,6 +45,24 @@ describe('InputButton', () => {
 
         expect(wrapper.find('a').attributes('href')).toBe('https://fake.com')
       })
+    })
+  })
+
+  describe('prop:icon', () => {
+    let button
+
+    beforeAll(() => {
+      button = buildWrapper({ props: { icon: true } }).find('button')
+    })
+
+    it('apllies a rounded-oval class instead, with normalized padding', () => {
+      expect(button.classes()).toEqual(
+        expect.arrayContaining([...staticClasses, 'rounded-oval', 'p-2'])
+      )
+    })
+
+    it('overrides the size of children svgs', () => {
+      expect(button.classes()).toEqual(expect.arrayContaining(['[&>svg]:h-5', '[&>svg]:w-5']))
     })
   })
 
@@ -104,6 +121,23 @@ describe('InputButton', () => {
       expect(link.text()).toBe('Sign up')
 
       expect(link.classes()).toEqual(expect.arrayContaining([...baseClasses, 'primary']))
+    })
+
+    it('displays a "Delete" icon-only danger button', () => {
+      const button = buildWrapper({
+        props: { variant: 'danger', icon: true },
+        slots: { default: '<svg />' }
+      }).find('button')
+
+      expect(button.classes()).toEqual(
+        expect.arrayContaining([
+          ...staticClasses,
+          'rounded-oval',
+          'p-2',
+          '[&>svg]:h-5',
+          '[&>svg]:w-5'
+        ])
+      )
     })
   })
 })

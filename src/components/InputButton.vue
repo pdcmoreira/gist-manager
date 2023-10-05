@@ -5,9 +5,7 @@ import { RouterLink } from 'vue-router'
 const props = defineProps({
   variant: {
     type: String,
-
     default: null,
-
     validator: (value) => !value || ['primary', 'danger'].includes(value)
   },
 
@@ -19,6 +17,11 @@ const props = defineProps({
   href: {
     type: String,
     default: null
+  },
+
+  icon: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -45,14 +48,22 @@ const resolvedComponent = computed(() => {
 
   return { is: 'button' }
 })
+
+const classes = computed(() => [
+  props.variant || 'default',
+  {
+    'rounded-oval p-2 [&>svg]:h-5 [&>svg]:w-5': props.icon,
+    'rounded-full px-4 py-2': !props.icon
+  }
+])
 </script>
 
 <template>
   <component
     :is="resolvedComponent.is"
     v-bind="resolvedComponent.props"
-    class="inline-block cursor-pointer rounded-full px-4 py-2 text-sm font-semibold shadow active:shadow-inner"
-    :class="variant || 'default'"
+    class="inline-block cursor-pointer text-sm font-semibold shadow active:shadow-inner"
+    :class="classes"
   >
     <slot />
   </component>
