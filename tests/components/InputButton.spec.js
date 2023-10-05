@@ -12,29 +12,6 @@ const baseClasses = [
   'active:shadow-inner'
 ]
 
-const defaultVariantClasses = [
-  'border',
-  'border-gray-50',
-  'text-gray-600',
-  'bg-gray-50',
-  'hover:bg-white',
-  'active:shadow-gray-200'
-]
-
-const primaryVariantClasses = [
-  'bg-blue-600',
-  'text-white',
-  'hover:bg-blue-500',
-  'active:shadow-blue-800'
-]
-
-const dangerVariantClasses = [
-  'bg-red-600',
-  'text-white',
-  'hover:bg-red-500',
-  'active:shadow-red-800'
-]
-
 describe('InputButton', () => {
   const buildWrapper = (options) => shallowMount(InputButton, options)
 
