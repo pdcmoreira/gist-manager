@@ -18,13 +18,13 @@ const filesCount = computed(() => Object.keys(props.gist.files).length)
 </script>
 
 <template>
-  <RouterLink
-    :to="{ name: 'gist-details', params: { id: gist.id } }"
+  <div
     class="flex cursor-pointer justify-between gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
     tabindex="0"
+    @click="$router.push({ name: 'gist-details', params: { id: gist.id } })"
   >
     <div class="flex grow items-center gap-3 overflow-hidden">
-      <div class="flex shrink-0 items-center">
+      <div class="flex shrink-0 items-center" @click.stop>
         <a :href="gist.owner.html_url" target="_blank" tabindex="-1">
           <img
             class="h-10 w-10 rounded-full object-cover"
@@ -56,5 +56,5 @@ const filesCount = computed(() => Object.keys(props.gist.files).length)
 
       <GistBadge>{{ filesCount }} files</GistBadge>
     </div>
-  </RouterLink>
+  </div>
 </template>
