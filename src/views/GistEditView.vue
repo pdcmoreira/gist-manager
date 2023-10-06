@@ -129,11 +129,11 @@ const save = async () => {
 
 <template>
   <div>
-    <BackToListButton class="mb-4" />
+    <BackToListButton class="mb-6" />
 
     <GistContainer :loading="isLoading" :exists="!!(!id || existingDetails)" class="text-gray-700">
       <div class="flex flex-col">
-        <ContainerCard class="mb-10 flex items-end p-6">
+        <ContainerCard class="mb-6 flex items-end p-6">
           <label class="grow">
             Description
 
