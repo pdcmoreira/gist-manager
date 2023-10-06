@@ -48,6 +48,29 @@ describe('InputButton', () => {
     })
   })
 
+  describe('prop:disabled', () => {
+    describe.each([
+      ['button', { disabled: true }],
+      ['link', { href: 'https://fake.com', disabled: true }],
+      ['router link', { to: '/', disabled: true }]
+    ])('%s', (description, props) => {
+      it('always renders a disabled button', () => {
+        const button = buildWrapper({ props }).find('button')
+
+        expect(button.exists()).toBeTruthy()
+
+        expect(button.classes()).toEqual(
+          expect.arrayContaining([
+            ...baseClasses,
+            'opacity-60',
+            'pointer-events-none',
+            'select-none'
+          ])
+        )
+      })
+    })
+  })
+
   describe('prop:icon', () => {
     let button
 
