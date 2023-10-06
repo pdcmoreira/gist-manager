@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import InputButton from '@/components/InputButton.vue'
 
 const staticClasses = [
+  'inline-flex',
   'cursor-pointer',
   'text-sm',
   'font-semibold',

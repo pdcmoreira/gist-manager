@@ -74,7 +74,7 @@ const classes = computed(() => [
   <component
     :is="resolvedComponent.is"
     v-bind="resolvedComponent.props"
-    class="cursor-pointer text-sm font-semibold shadow active:shadow-inner"
+    class="inline-flex cursor-pointer text-sm font-semibold shadow active:shadow-inner"
     :class="classes"
   >
     <slot />
