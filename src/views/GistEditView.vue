@@ -3,7 +3,7 @@ import { ref, computed, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGistStore } from '@/stores/gist'
 import { scrollToBottom } from '@/utilities/scroll'
-import GistCard from '@/components/GistCard.vue'
+import GistContainer from '@/components/GistContainer.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import IconTrash from '@/components/icons/IconTrash.vue'
 import IconCheck from '@/components/icons/IconCheck.vue'
@@ -127,7 +127,7 @@ const save = async () => {
 </script>
 
 <template>
-  <GistCard :loading="isLoading" :exists="!!(!id || existingDetails)" class="text-gray-700">
+  <GistContainer :loading="isLoading" :exists="!!(!id || existingDetails)" class="text-gray-700">
     <div class="flex flex-col">
       <ContainerCard class="mb-10 flex items-end p-6">
         <label class="grow">
@@ -193,5 +193,5 @@ const save = async () => {
         </InputButton>
       </div>
     </div>
-  </GistCard>
+  </GistContainer>
 </template>
