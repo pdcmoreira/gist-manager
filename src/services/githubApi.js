@@ -36,6 +36,7 @@ const fetchJson = async (...args) => (await fetch(...args)).json()
 const request = async (route, method = 'GET', data = null) => {
   const userStore = useUserStore()
 
+  // TODO: error handling
   return fetchJson(new URL(route, GH_API_URL).href, {
     method,
 
@@ -54,3 +55,9 @@ export const fetchAllGists = async () => request('/gists')
 export const fetchStarredGists = async () => request('/gists/starred')
 
 export const fetchGistDetails = async (id) => request(`/gists/${id}`)
+
+export const createGist = async (files, description, isPublic) =>
+  request('/gists', 'POST', { files, description, public: isPublic })
+
+export const updateGist = async (id, files, description, isPublic) =>
+  request(`/gists/${id}`, 'PATCH', { files, description, public: isPublic })

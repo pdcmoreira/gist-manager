@@ -1,10 +1,16 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { fetchAllGists, fetchStarredGists, fetchGistDetails } from '@/services/githubApi'
+import {
+  fetchAllGists,
+  fetchStarredGists,
+  fetchGistDetails,
+  createGist,
+  updateGist
+} from '@/services/githubApi'
 import { useLoadings } from '@/composables/useLoadings'
 
 export const useGistStore = defineStore('gist', () => {
-  const { loadings, addLoading, removeLoading, isLoading } = useLoadings()
+  const { loadings, addLoading, removeLoading } = useLoadings()
 
   const allGists = ref([])
 
@@ -45,5 +51,46 @@ export const useGistStore = defineStore('gist', () => {
     removeLoading(loadingKey)
   }
 
-  return { loadings, isLoading, allGists, starredGists, gistsDetails, fetchGists, fetchDetails }
+  const create = async (files, description, isPublic) => {
+    const loadingKey = 'gist-create'
+
+    addLoading(loadingKey)
+
+    const gist = await createGist(files, description, isPublic)
+
+    allGists.value.push(gist)
+
+    removeLoading(loadingKey)
+
+    return gist
+  }
+
+  const update = async (id, files, description, isPublic) => {
+    const loadingKey = 'gist-create'
+
+    addLoading(loadingKey)
+
+    const gist = await updateGist(id, files, description, isPublic)
+
+    const index = allGists.value.findIndex((item) => item.id === gist.id)
+
+    if (index >= 0) {
+      allGists.value.splice(index, 1, gist)
+    }
+
+    removeLoading(loadingKey)
+
+    return gist
+  }
+
+  return {
+    loadings,
+    allGists,
+    starredGists,
+    gistsDetails,
+    fetchGists,
+    fetchDetails,
+    create,
+    update
+  }
 })

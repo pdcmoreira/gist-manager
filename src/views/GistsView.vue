@@ -8,6 +8,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import InputButton from '@/components/InputButton.vue'
 import GistList from '@/components/GistList.vue'
 import InputTagFilters from '@/components/InputTagFilters.vue'
+import IconPlus from '@/components/icons/IconPlus.vue'
 
 const typeOptions = [
   { id: 'all', name: 'All', stateKey: 'allGists' },
@@ -66,22 +67,33 @@ const setQuery = (query) => {
 
 <template>
   <div>
-    <div class="mb-4 flex items-center gap-2">
-      <InputTagFilters
-        :options="typeOptions"
-        :selected="[selectedType]"
-        exclusive
-        required
-        @update:selected="setQuery({ type: $event[0].id })"
-      />
+    <div class="mb-4 grid grid-cols-1 gap-4 sm:gap-10 md:grid-cols-3">
+      <div class="flex justify-between md:col-span-2">
+        <div class="flex items-center gap-2">
+          <InputTagFilters
+            :options="typeOptions"
+            :selected="[selectedType]"
+            exclusive
+            required
+            @update:selected="setQuery({ type: $event[0].id })"
+          />
 
-      <span class="h-4 border-l text-gray-300" />
-      <InputTagFilters
-        :options="visibilityOptions"
-        :selected="selectedVisibility ? [selectedVisibility] : []"
-        exclusive
-        @update:selected="setQuery({ visibility: $event[0]?.id || null })"
-      />
+          <span class="h-4 border-l text-gray-300" />
+
+          <InputTagFilters
+            :options="visibilityOptions"
+            :selected="selectedVisibility ? [selectedVisibility] : []"
+            exclusive
+            @update:selected="setQuery({ visibility: $event[0]?.id || null })"
+          />
+        </div>
+
+        <div class="flex items-center gap-4">
+          <InputButton class="text-lg" icon variant="primary" :to="{ name: 'gist-new' }">
+            <IconPlus />
+          </InputButton>
+        </div>
+      </div>
     </div>
 
     <main class="grid grid-cols-1 gap-4 sm:gap-10 md:grid-cols-3">

@@ -6,6 +6,7 @@ import FadeTransition from '@/components/FadeTransition.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import InputButton from '@/components/InputButton.vue'
 import GistDetails from '@/components/GistDetails.vue'
+import IconPencil from '@/components/icons/IconPencil.vue'
 
 const props = defineProps({
   id: {
@@ -62,6 +63,12 @@ const backToListRoute = computed(() => ({
 
         <GistDetails v-else :details="details" />
       </FadeTransition>
+
+      <template #corner-actions>
+        <InputButton icon :to="{ name: 'gist-edit', params: { id } }">
+          <IconPencil />
+        </InputButton>
+      </template>
     </ContainerCard>
   </div>
 </template>
