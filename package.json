@@ -9,6 +9,7 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "pinia": "^2.1.6",
     "universal-cookie": "^6.1.1",
     "uuid": "^9.0.1",

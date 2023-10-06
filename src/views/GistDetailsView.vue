@@ -7,6 +7,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import InputButton from '@/components/InputButton.vue'
 import GistDetails from '@/components/GistDetails.vue'
 import IconPencil from '@/components/icons/IconPencil.vue'
+import BackToListButton from '@/components/BackToListButton.vue'
 
 const props = defineProps({
   id: {
@@ -43,13 +44,7 @@ const backToListRoute = computed(() => ({
 
 <template>
   <div>
-    <div class="mb-4">
-      <InputButton :to="backToListRoute">
-        <span class="mr-2">&LeftArrow;</span>
-
-        Back to list
-      </InputButton>
-    </div>
+    <BackToListButton class="mb-4" />
 
     <ContainerCard>
       <FadeTransition>

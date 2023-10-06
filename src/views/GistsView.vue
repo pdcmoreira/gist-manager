@@ -1,7 +1,9 @@
 <script setup>
-import { computed, onBeforeMount } from 'vue'
+import { computed, watch, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useGistStore } from '@/stores/gist'
+import { useGistListStore } from '@/stores/gistList'
+import { objectAssignDefined } from '@/utilities/objectAssignDefined'
 import FadeTransition from '@/components/FadeTransition.vue'
 import ContainerCard from '@/components/ContainerCard.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
@@ -38,6 +40,8 @@ const route = useRoute()
 
 const gistStore = useGistStore()
 
+const gistListStore = useGistListStore()
+
 onBeforeMount(() => {
   gistStore.fetchGists()
 })
@@ -60,8 +64,18 @@ const displayGists = computed(() => {
   return gistStore[stateKey].filter((gist) => publicValue === null || gist.public === publicValue)
 })
 
-const setQuery = (query) => {
-  router.replace({ query: { ...route.query, ...query } })
+// Keep list filters in sync with the query/props, being the query the main source of truth
+watch(
+  [() => props.type, () => props.visibility],
+  ([type, visibility]) => {
+    gistListStore.updateFilters({ type, visibility })
+  },
+  { immediate: true }
+)
+
+// Update filters in the query, which will cascade down to the props and the store
+const updateFilters = ({ type, visibility }) => {
+  router.replace({ query: { ...route.query, ...objectAssignDefined({}, { type, visibility }) } })
 }
 </script>
 
@@ -75,7 +89,7 @@ const setQuery = (query) => {
             :selected="[selectedType]"
             exclusive
             required
-            @update:selected="setQuery({ type: $event[0].id })"
+            @update:selected="updateFilters({ type: $event[0].id })"
           />
 
           <span class="h-4 border-l text-gray-300" />
@@ -84,7 +98,7 @@ const setQuery = (query) => {
             :options="visibilityOptions"
             :selected="selectedVisibility ? [selectedVisibility] : []"
             exclusive
-            @update:selected="setQuery({ visibility: $event[0]?.id || null })"
+            @update:selected="updateFilters({ visibility: $event[0]?.id || null })"
           />
         </div>
 

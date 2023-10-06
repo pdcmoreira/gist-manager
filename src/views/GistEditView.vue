@@ -10,6 +10,7 @@ import IconCheck from '@/components/icons/IconCheck.vue'
 import ContainerCard from '@/components/ContainerCard.vue'
 import InputButton from '@/components/InputButton.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import BackToListButton from '@/components/BackToListButton.vue'
 
 const props = defineProps({
   id: {
@@ -127,71 +128,80 @@ const save = async () => {
 </script>
 
 <template>
-  <GistContainer :loading="isLoading" :exists="!!(!id || existingDetails)" class="text-gray-700">
-    <div class="flex flex-col">
-      <ContainerCard class="mb-10 flex items-end p-6">
-        <label class="grow">
-          Description
+  <div>
+    <BackToListButton class="mb-4" />
 
-          <input
-            v-model="description"
-            class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
-          />
-        </label>
-
-        <label class="ml-2 flex items-center gap-2 px-2 py-1">
-          Public
-
-          <input type="checkbox" v-model="publicValue" class="" />
-        </label>
-      </ContainerCard>
-
-      <ContainerCard v-for="(file, index) in files" :key="index" class="mb-6 p-6">
-        <div class="mb-4">
-          <label>
-            File name
+    <GistContainer :loading="isLoading" :exists="!!(!id || existingDetails)" class="text-gray-700">
+      <div class="flex flex-col">
+        <ContainerCard class="mb-10 flex items-end p-6">
+          <label class="grow">
+            Description
 
             <input
-              v-model="file.filename"
+              v-model="description"
               class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
             />
           </label>
-        </div>
 
-        <div>
-          <label>
-            Content
+          <label class="ml-2 flex items-center gap-2 px-2 py-1">
+            Public
 
-            <textarea
-              v-model="file.content"
-              class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
-              rows="10"
-            />
+            <input type="checkbox" v-model="publicValue" class="" />
           </label>
-        </div>
+        </ContainerCard>
 
-        <template #corner-actions>
-          <InputButton variant="danger" icon @click="removeFile(index)">
-            <IconTrash />
+        <ContainerCard v-for="(file, index) in files" :key="index" class="mb-6 p-6">
+          <div class="mb-4">
+            <label>
+              File name
+
+              <input
+                v-model="file.filename"
+                class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              Content
+
+              <textarea
+                v-model="file.content"
+                class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
+                rows="10"
+              />
+            </label>
+          </div>
+
+          <template #corner-actions>
+            <InputButton variant="danger" icon @click="removeFile(index)">
+              <IconTrash />
+            </InputButton>
+          </template>
+        </ContainerCard>
+
+        <div class="flex justify-between">
+          <InputButton class="flex items-center" @click="addFile">
+            <IconPlus />
+
+            <span class="mx-2">Add file</span>
           </InputButton>
-        </template>
-      </ContainerCard>
 
-      <div class="flex justify-between">
-        <InputButton class="flex items-center" @click="addFile">
-          <IconPlus />
+          <InputButton
+            :disabled="!canSave"
+            class="flex items-center"
+            variant="primary"
+            @click="save"
+          >
+            <LoadingSpinner v-if="isSaving" class="text-white" />
 
-          <span class="mx-2">Add file</span>
-        </InputButton>
+            <IconCheck v-else />
 
-        <InputButton :disabled="!canSave" class="flex items-center" variant="primary" @click="save">
-          <LoadingSpinner v-if="isSaving" class="text-white" />
-
-          <IconCheck v-else />
-
-          <span class="mx-2">Save</span>
-        </InputButton>
+            <span class="mx-2">Save</span>
+          </InputButton>
+        </div>
       </div>
-    </div>
-  </GistContainer>
+    </GistContainer>
+  </div>
 </template>
