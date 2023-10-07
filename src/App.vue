@@ -1,7 +1,9 @@
 <script setup>
+import { computed, watch } from 'vue'
 import { useRouter, RouterView } from 'vue-router'
 import { useGithubOAuthFlow } from '@/composables/useGithubOAuthFlow'
 import { useUserStore } from '@/stores/user'
+import { useGistStore } from '@/stores/gist'
 import FadeTransition from '@/components/FadeTransition.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import NavBar from '@/components/NavBar.vue'
@@ -11,13 +13,33 @@ const router = useRouter()
 
 const userStore = useUserStore()
 
-const { authorizeUrl, isLoading } = useGithubOAuthFlow()
+const gistStore = useGistStore()
+
+const { authorizeUrl, isLoading: isLoadingAuthentication } = useGithubOAuthFlow()
+
+const isLoading = computed(
+  () => isLoadingAuthentication.value || gistStore.loadings.includes('gists')
+)
 
 const logout = () => {
   userStore.setToken(null)
 
   router.push({ name: 'home' })
 }
+
+watch(
+  () => userStore.isLoggedIn,
+
+  async (isLoggedIn) => {
+    if (isLoggedIn) {
+      return gistStore.fetchGists()
+    }
+
+    gistStore.clearGists()
+  },
+
+  { immediate: true }
+)
 </script>
 
 <template>

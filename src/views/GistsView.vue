@@ -42,10 +42,6 @@ const gistStore = useGistStore()
 
 const gistListStore = useGistListStore()
 
-onBeforeMount(() => {
-  gistStore.fetchGists()
-})
-
 const isLoading = computed(() => gistStore.loadings.includes('gists'))
 
 const selectedType = computed(

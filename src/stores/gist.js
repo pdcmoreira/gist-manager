@@ -30,6 +30,14 @@ export const useGistStore = defineStore('gist', () => {
     })
   }
 
+  const clearGists = () => {
+    allGists.value = []
+
+    starredGists.value = []
+
+    gistsDetails.value = []
+  }
+
   const fetchGists = async () => {
     const loadingKey = 'gists'
 
@@ -95,6 +103,7 @@ export const useGistStore = defineStore('gist', () => {
     allGists,
     starredGists,
     gistsDetails,
+    clearGists,
     fetchGists,
     fetchDetails,
     create,
