@@ -19,6 +19,17 @@ export const useGistStore = defineStore('gist', () => {
   // Used for caching gist details
   const gistsDetails = ref([])
 
+  // Update changed gist locally wherever it's present
+  const updateLocally = (gist) => {
+    ;[allGists, starredGists, gistsDetails].forEach((list) => {
+      const index = list.value.findIndex((item) => item.id === gist.id)
+
+      if (index >= 0) {
+        list.value.splice(index, 1, gist)
+      }
+    })
+  }
+
   const fetchGists = async () => {
     const loadingKey = 'gists'
 
@@ -72,11 +83,7 @@ export const useGistStore = defineStore('gist', () => {
 
     const gist = await updateGist(id, files, description, isPublic)
 
-    const index = allGists.value.findIndex((item) => item.id === gist.id)
-
-    if (index >= 0) {
-      allGists.value.splice(index, 1, gist)
-    }
+    updateLocally(gist)
 
     removeLoading(loadingKey)
 
