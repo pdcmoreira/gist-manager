@@ -35,7 +35,7 @@ const isLoading = computed(
 )
 
 const isSaving = computed(() =>
-  gistStore.loadings.some((loading) => ['gist-create'].includes(loading))
+  gistStore.loadings.includes(props.id ? `gist-update-${props.id}` : 'gist-create')
 )
 
 const existingDetails = computed(() =>
