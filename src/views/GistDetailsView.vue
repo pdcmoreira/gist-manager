@@ -2,12 +2,12 @@
 import { computed, watchEffect } from 'vue'
 import { useGistStore } from '@/stores/gist'
 import { useIsUserGistOwner } from '@/composables/useIsUserGistOwner'
+import BackToListButton from '@/components/BackToListButton.vue'
 import GistContainer from '@/components/GistContainer.vue'
 import ContainerCard from '@/components/ContainerCard.vue'
 import GistDetails from '@/components/GistDetails.vue'
 import InputButton from '@/components/InputButton.vue'
 import IconPencil from '@/components/icons/IconPencil.vue'
-import BackToListButton from '@/components/BackToListButton.vue'
 
 const props = defineProps({
   id: {
