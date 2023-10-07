@@ -12,6 +12,16 @@ const staticClasses = [
 
 const baseClasses = [...staticClasses, 'rounded-full', 'px-4', 'py-2']
 
+const iconClasses = [
+  ...staticClasses,
+  'h-10',
+  'w-10',
+  'items-center',
+  'justify-center',
+  'rounded-oval',
+  'p-2'
+]
+
 describe('InputButton', () => {
   const buildWrapper = (options) => shallowMount(InputButton, options)
 
@@ -79,14 +89,8 @@ describe('InputButton', () => {
       button = buildWrapper({ props: { icon: true } }).find('button')
     })
 
-    it('apllies a rounded-oval class instead, with normalized padding', () => {
-      expect(button.classes()).toEqual(
-        expect.arrayContaining([...staticClasses, 'rounded-oval', 'p-2'])
-      )
-    })
-
-    it('overrides the size of children svgs', () => {
-      expect(button.classes()).toEqual(expect.arrayContaining(['[&>svg]:h-5', '[&>svg]:w-5']))
+    it('applies a rounded-oval class instead, with normalized padding and size', () => {
+      expect(button.classes()).toEqual(expect.arrayContaining(iconClasses))
     })
   })
 
@@ -153,15 +157,7 @@ describe('InputButton', () => {
         slots: { default: '<svg />' }
       }).find('button')
 
-      expect(button.classes()).toEqual(
-        expect.arrayContaining([
-          ...staticClasses,
-          'rounded-oval',
-          'p-2',
-          '[&>svg]:h-5',
-          '[&>svg]:w-5'
-        ])
-      )
+      expect(button.classes()).toEqual(expect.arrayContaining(iconClasses))
     })
   })
 })
