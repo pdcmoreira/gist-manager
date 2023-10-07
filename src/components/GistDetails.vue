@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue'
 import GistDetailDate from '@/components/GistDetailDate.vue'
-import InputButton from '@/components/InputButton.vue'
 import CodeBlock from '@/components/CodeBlock.vue'
 
 const props = defineProps({
@@ -15,7 +14,7 @@ const files = computed(() => (props.details ? Object.values(props.details.files)
 </script>
 
 <template>
-  <div class="p-6 text-gray-700">
+  <div class="p-6 pt-9 text-gray-700">
     <div class="mb-12 flex items-end justify-between border-b px-4 pb-6">
       <div :class="{ italic: !details.description }">
         {{ details.description || 'No description' }}
