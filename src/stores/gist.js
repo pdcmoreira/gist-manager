@@ -66,7 +66,7 @@ export const useGistStore = defineStore('gist', () => {
   }
 
   const update = async (id, files, description, isPublic) => {
-    const loadingKey = 'gist-create'
+    const loadingKey = `gist-update-${id}`
 
     addLoading(loadingKey)
 
