@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, watchEffect, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGistStore } from '@/stores/gist'
 import { scrollToBottom } from '@/utilities/scroll'
+import { useIsUserGistOwner } from '@/composables/useIsUserGistOwner'
 import GistContainer from '@/components/GistContainer.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import IconTrash from '@/components/icons/IconTrash.vue'
@@ -68,6 +69,18 @@ watch(
   { immediate: true }
 )
 
+const goToDetails = (id) => {
+  return router.replace({ name: 'gist-details', params: { id } })
+}
+
+const { isUserGistOwner } = useIsUserGistOwner(existingDetails)
+
+watchEffect(() => {
+  if (existingDetails.value && !isUserGistOwner.value) {
+    goToDetails(props.id)
+  }
+})
+
 watch(
   existingDetails,
 
@@ -120,10 +133,10 @@ const save = async () => {
   if (!id) {
     id = await gistStore.create(...parameters)
   } else {
-    await gistStore.update(props.id, ...parameters)
+    await gistStore.update(id, ...parameters)
   }
 
-  return router.replace({ name: 'gist-details', params: { id } })
+  return goToDetails(id)
 }
 </script>
 
