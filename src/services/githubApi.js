@@ -32,7 +32,13 @@ export const requestAccessToken = async (code) =>
     )
   ).access_token || null
 
-const fetchJson = async (...args) => (await fetch(...args)).json()
+const fetchJson = async (...args) => {
+  const response = await fetch(...args)
+
+  try {
+    return await response.json()
+  } catch (error) {}
+}
 
 const request = async (route, method = 'GET', data = null) => {
   const userStore = useUserStore()
@@ -64,3 +70,7 @@ export const createGist = async (files, description, isPublic) =>
 
 export const updateGist = async (id, files, description, isPublic) =>
   request(`/gists/${id}`, 'PATCH', { files, description, public: isPublic })
+
+export const starGist = async (id) => request(`/gists/${id}/star`, 'PUT')
+
+export const unstarGist = async (id) => request(`/gists/${id}/star`, 'DELETE')

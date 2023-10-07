@@ -5,7 +5,9 @@ import {
   fetchStarredGists,
   fetchGistDetails,
   createGist,
-  updateGist
+  updateGist,
+  starGist,
+  unstarGist
 } from '@/services/githubApi'
 import { useLoadings } from '@/composables/useLoadings'
 
@@ -98,6 +100,37 @@ export const useGistStore = defineStore('gist', () => {
     return gist
   }
 
+  const updateStar = async (gist, star) => {
+    const starredIndex = starredGists.value.findIndex((item) => item.id === gist.id)
+
+    // Ignore if gist is already in wanted state
+    if (star === starredIndex >= 0) {
+      return
+    }
+
+    const loadingKey = `gist-update-star-${gist.id}`
+
+    addLoading(loadingKey)
+
+    // Optimistic approach: instantly update local values, before request is complete
+
+    let request
+
+    if (star) {
+      request = starGist(gist.id)
+
+      starredGists.value.push(gist)
+    } else {
+      request = unstarGist(gist.id)
+
+      starredGists.value.splice(starredIndex, 1)
+    }
+
+    await request
+
+    removeLoading(loadingKey)
+  }
+
   return {
     loadings,
     allGists,
@@ -107,6 +140,7 @@ export const useGistStore = defineStore('gist', () => {
     fetchGists,
     fetchDetails,
     create,
-    update
+    update,
+    updateStar
   }
 })
