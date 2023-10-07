@@ -50,6 +50,8 @@ const request = async (route, method = 'GET', data = null) => {
   })
 }
 
+export const fetchUser = async () => request('/user')
+
 export const fetchAllGists = async () => request('/gists')
 
 export const fetchStarredGists = async () => request('/gists/starred')

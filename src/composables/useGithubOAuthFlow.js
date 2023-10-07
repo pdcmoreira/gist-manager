@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { cookies } from '@/utilities/cookies'
-import { generateAuthorizeUrl, requestAccessToken } from '@/services/githubApi'
+import { generateAuthorizeUrl, requestAccessToken, fetchUser } from '@/services/githubApi'
 import { useUserStore } from '@/stores/user'
 
 const COOKIE_KEY_GH_STATE = 'gh_state'
@@ -14,9 +14,13 @@ export function useGithubOAuthFlow() {
 
   const authorizeUrl = ref(null)
 
-  const loading = ref(false)
+  const loadingToken = ref(false)
 
-  const isLoading = computed(() => loading.value)
+  const loadingUser = ref(false)
+
+  const isLoading = computed(
+    () => loadingToken.value || loadingUser.value || (userStore.accessToken && !userStore.user)
+  )
 
   const router = useRouter()
 
@@ -29,7 +33,7 @@ export function useGithubOAuthFlow() {
       // Validate if the authorization resulted from a redirect from the app by comparing the last
       // generated "state" with the one from the query. Also discard if no "code" is present.
       if (state && to.query.code && to.query.state === state) {
-        loading.value = true
+        loadingToken.value = true
 
         // Try to request an access token with the provided code.
         // Store the token so that it can then be used to perform authenticated requests to the API.
@@ -41,7 +45,7 @@ export function useGithubOAuthFlow() {
           userStore.setToken(null)
         }
 
-        loading.value = false
+        loadingToken.value = false
       }
 
       // Redirect to the gists page if we got a token, or redirect home otherwise.
@@ -62,6 +66,28 @@ export function useGithubOAuthFlow() {
 
     next()
   })
+
+  watch(
+    () => userStore.accessToken,
+
+    async (token) => {
+      if (!token) {
+        userStore.setUser(null)
+
+        return
+      }
+
+      loadingUser.value = true
+
+      const user = await fetchUser()
+
+      userStore.setUser(user)
+
+      loadingUser.value = false
+    },
+
+    { immediate: true }
+  )
 
   return {
     authorizeUrl,

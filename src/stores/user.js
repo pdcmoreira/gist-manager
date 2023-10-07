@@ -7,6 +7,10 @@ const COOKIE_KEY_ACCESS_TOKEN = 'access_token'
 export const useUserStore = defineStore('user', () => {
   const accessToken = ref(cookies.get(COOKIE_KEY_ACCESS_TOKEN) || null)
 
+  const user = ref(null)
+
+  const isLoggedIn = computed(() => !!accessToken.value)
+
   const setToken = (token) => {
     if (token) {
       // Store token in a cookie so that it can be restored in future sessions.
@@ -18,9 +22,15 @@ export const useUserStore = defineStore('user', () => {
     accessToken.value = token
   }
 
-  const accessTokenGetter = computed(() => accessToken.value)
+  const setUser = (newUser) => {
+    user.value = newUser
+  }
 
-  const isLoggedIn = computed(() => !!accessToken.value)
-
-  return { setToken, accessToken: accessTokenGetter, isLoggedIn }
+  return {
+    accessToken,
+    user,
+    isLoggedIn,
+    setToken,
+    setUser
+  }
 })
