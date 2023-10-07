@@ -9,7 +9,8 @@ const GH_SCOPE = 'gist'
 
 const BASE_HEADERS = {
   'Content-Type': 'application/json',
-  Accept: 'application/vnd.github+json'
+  Accept: 'application/vnd.github+json',
+  'X-GitHub-Api-Version': '2022-11-28'
 }
 
 export const generateAuthorizeUrl = (state) =>
