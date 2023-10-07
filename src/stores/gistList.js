@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { objectAssignDefined } from '@/utilities/objectAssignDefined'
 
 export const useGistListStore = defineStore('gistList', () => {
