@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch, onBeforeMount } from 'vue'
+import { computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useGistStore } from '@/stores/gist'
 import { useGistListStore } from '@/stores/gistList'
@@ -15,7 +15,9 @@ import ChartTotals from '@/components/ChartTotals.vue'
 
 const typeOptions = [
   { id: 'all', name: 'All', stateKey: 'allGists' },
-  { id: 'starred', name: 'Starred', stateKey: 'starredGists' }
+  { id: 'my', name: 'My', stateKey: 'allOwnGists' },
+  { id: 'starred', name: 'Starred', stateKey: 'starredGists' },
+  { id: 'unstarred', name: 'Unstarred', stateKey: 'unstarredGists' }
 ]
 
 const visibilityOptions = [
@@ -76,8 +78,8 @@ const updateFilters = ({ type, visibility }) => {
 }
 
 const totals = [
-  ['My', gistStore.allGists.length],
-  ['Starred', gistStore.starredGists.length]
+  ['Starred', gistStore.starredGists.length],
+  ['Unstarred', gistStore.unstarredGists.length]
 ]
 </script>
 

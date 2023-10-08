@@ -1,7 +1,7 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import {
-  fetchAllGists,
+  fetchAllOwnGists,
   fetchStarredGists,
   fetchGistDetails,
   createGist,
@@ -10,20 +10,28 @@ import {
   unstarGist
 } from '@/services/githubApi'
 import { useLoadings } from '@/composables/useLoadings'
+import unionBy from 'lodash/unionBy'
+import differenceBy from 'lodash/differenceBy'
 
 export const useGistStore = defineStore('gist', () => {
   const { loadings, addLoading, removeLoading } = useLoadings()
 
-  const allGists = ref([])
+  const allOwnGists = ref([])
 
   const starredGists = ref([])
+
+  // Contains allOwnGists + starred (excluding repeated ones)
+  const allGists = computed(() => unionBy(allOwnGists.value, starredGists.value, 'id'))
+
+  // Contains allOwnGists except starred
+  const unstarredGists = computed(() => differenceBy(allOwnGists.value, starredGists.value, 'id'))
 
   // Used for caching gist details
   const gistsDetails = ref([])
 
   // Update changed gist locally wherever it's present
   const updateLocally = (gist) => {
-    ;[allGists, starredGists, gistsDetails].forEach((list) => {
+    ;[allOwnGists, starredGists, gistsDetails].forEach((list) => {
       const index = list.value.findIndex((item) => item.id === gist.id)
 
       if (index >= 0) {
@@ -33,7 +41,7 @@ export const useGistStore = defineStore('gist', () => {
   }
 
   const clearGists = () => {
-    allGists.value = []
+    allOwnGists.value = []
 
     starredGists.value = []
 
@@ -46,8 +54,8 @@ export const useGistStore = defineStore('gist', () => {
     addLoading(loadingKey)
 
     // Fetch both gist requests in parallel.
-    ;[allGists.value, starredGists.value] = await Promise.all([
-      fetchAllGists(),
+    ;[allOwnGists.value, starredGists.value] = await Promise.all([
+      fetchAllOwnGists(),
       fetchStarredGists()
     ])
 
@@ -79,7 +87,7 @@ export const useGistStore = defineStore('gist', () => {
 
     const gist = await createGist(files, description, isPublic)
 
-    allGists.value.push(gist)
+    allOwnGists.value.push(gist)
 
     removeLoading(loadingKey)
 
@@ -133,8 +141,10 @@ export const useGistStore = defineStore('gist', () => {
 
   return {
     loadings,
-    allGists,
+    allOwnGists,
     starredGists,
+    allGists,
+    unstarredGists,
     gistsDetails,
     clearGists,
     fetchGists,
