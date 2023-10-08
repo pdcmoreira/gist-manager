@@ -9,6 +9,7 @@ import GistDetails from '@/components/GistDetails.vue'
 import InputButton from '@/components/InputButton.vue'
 import IconPencil from '@/components/icons/IconPencil.vue'
 import GistStar from '@/components/GistStar.vue'
+import GistHistoryStatistics from '@/components/GistHistoryStatistics.vue'
 
 const props = defineProps({
   id: {
@@ -49,21 +50,27 @@ const { isUserGistOwner } = useIsUserGistOwner(details)
     <BackToListButton class="mb-4" />
 
     <GistContainer :loading="isLoading" :exists="!!details" class="text-gray-700">
-      <ContainerCard>
-        <GistDetails :details="details" />
+      <div class="grid grid-cols-1 gap-4 sm:gap-10 md:grid-cols-3">
+        <ContainerCard class="md:col-span-2">
+          <GistDetails :details="details" />
 
-        <template #corner-actions>
-          <div class="flex gap-2">
-            <InputButton icon @click="toggleStar">
-              <GistStar :starred="isStarred" />
-            </InputButton>
+          <template #corner-actions>
+            <div class="flex gap-2">
+              <InputButton icon @click="toggleStar">
+                <GistStar :starred="isStarred" />
+              </InputButton>
 
-            <InputButton v-if="isUserGistOwner" icon :to="{ name: 'gist-edit', params: { id } }">
-              <IconPencil />
-            </InputButton>
-          </div>
-        </template>
-      </ContainerCard>
+              <InputButton v-if="isUserGistOwner" icon :to="{ name: 'gist-edit', params: { id } }">
+                <IconPencil />
+              </InputButton>
+            </div>
+          </template>
+        </ContainerCard>
+
+        <ContainerCard class="p-6">
+          <GistHistoryStatistics :gist="details" />
+        </ContainerCard>
+      </div>
     </GistContainer>
   </div>
 </template>
