@@ -106,11 +106,9 @@ const totals = computed(() => [
           />
         </div>
 
-        <div class="flex items-center gap-4">
-          <InputButton class="text-lg" icon variant="primary" :to="{ name: 'gist-new' }">
-            <IconPlus />
-          </InputButton>
-        </div>
+        <InputButton class="text-lg" icon variant="primary" :to="{ name: 'gist-new' }">
+          <IconPlus />
+        </InputButton>
       </div>
     </div>
 
