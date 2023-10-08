@@ -77,10 +77,10 @@ const updateFilters = ({ type, visibility }) => {
   router.replace({ query: { ...route.query, ...objectAssignDefined({}, { type, visibility }) } })
 }
 
-const totals = [
+const totals = computed(() => [
   ['Starred', gistStore.starredGists.length],
   ['Unstarred', gistStore.unstarredGists.length]
-]
+])
 </script>
 
 <template>
