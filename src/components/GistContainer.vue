@@ -25,6 +25,8 @@ defineProps({
       <span class="ml-2">😢</span>
     </div>
 
-    <slot v-else />
+    <div v-else>
+      <slot />
+    </div>
   </FadeTransition>
 </template>
