@@ -11,6 +11,7 @@ import InputButton from '@/components/InputButton.vue'
 import GistList from '@/components/GistList.vue'
 import InputTagFilters from '@/components/InputTagFilters.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
+import ChartTotals from '@/components/ChartTotals.vue'
 
 const typeOptions = [
   { id: 'all', name: 'All', stateKey: 'allGists' },
@@ -73,6 +74,11 @@ watch(
 const updateFilters = ({ type, visibility }) => {
   router.replace({ query: { ...route.query, ...objectAssignDefined({}, { type, visibility }) } })
 }
+
+const totals = [
+  ['My', gistStore.allGists.length],
+  ['Starred', gistStore.starredGists.length]
+]
 </script>
 
 <template>
@@ -117,8 +123,8 @@ const updateFilters = ({ type, visibility }) => {
         </FadeTransition>
       </div>
 
-      <div class="rounded-lg bg-gray-100 p-9 shadow-sm">
-        <!-- TODO: charts -->
+      <div class="p-4">
+        <ChartTotals :totals="totals" />
       </div>
     </main>
   </div>
