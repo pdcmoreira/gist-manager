@@ -25,7 +25,7 @@ export const generateAuthorizeUrl = (state) =>
 export const requestAccessToken = async (code) =>
   (
     await fetchJson(
-      buildUrlWithQuery(new URL('/login/oauth/access_token', GH_GATEWAY_URL).href, { code }),
+      buildUrlWithQuery(new URL('login/oauth/access_token', GH_GATEWAY_URL).href, { code }),
       {
         headers: BASE_HEADERS
       }
