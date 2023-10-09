@@ -131,7 +131,7 @@ const save = async () => {
 
   // Create new
   if (!id) {
-    id = await gistStore.create(...parameters)
+    id = (await gistStore.create(...parameters)).id
   } else {
     await gistStore.update(id, ...parameters)
   }
