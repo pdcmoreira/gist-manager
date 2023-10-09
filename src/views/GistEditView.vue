@@ -157,7 +157,7 @@ const save = async () => {
               />
             </label>
 
-            <label class="ml-2 flex items-center gap-2 px-2 py-1">
+            <label v-if="!id" class="ml-2 flex items-center gap-2 px-2 py-1">
               Public
 
               <input type="checkbox" v-model="publicValue" class="" />
