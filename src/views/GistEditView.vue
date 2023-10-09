@@ -142,25 +142,27 @@ const save = async () => {
 
 <template>
   <div>
-    <BackToListButton class="mb-6" />
+    <BackToListButton class="mb-4 sm:mb-6" />
 
     <GistContainer :loading="isLoading" :exists="!!(!id || existingDetails)" class="text-gray-700">
       <div class="flex flex-col">
-        <ContainerCard class="mb-6 flex items-end p-6">
-          <label class="grow">
-            Description
+        <ContainerCard class="mb-6 p-6">
+          <div class="flex items-end">
+            <label class="grow">
+              Description
 
-            <input
-              v-model="description"
-              class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
-            />
-          </label>
+              <input
+                v-model="description"
+                class="mt-2 w-full rounded border px-2 py-1 hover:border-blue-200 focus:border-blue-400 focus:outline-none"
+              />
+            </label>
 
-          <label class="ml-2 flex items-center gap-2 px-2 py-1">
-            Public
+            <label class="ml-2 flex items-center gap-2 px-2 py-1">
+              Public
 
-            <input type="checkbox" v-model="publicValue" class="" />
-          </label>
+              <input type="checkbox" v-model="publicValue" class="" />
+            </label>
+          </div>
         </ContainerCard>
 
         <ContainerCard v-for="(file, index) in files" :key="index" class="mb-6 p-6">
