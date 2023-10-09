@@ -50,8 +50,8 @@ const { isUserGistOwner } = useIsUserGistOwner(details)
     <BackToListButton class="mb-4" />
 
     <GistContainer :loading="isLoading" :exists="!!details" class="text-gray-700">
-      <div class="grid grid-cols-1 gap-4 sm:gap-10 md:grid-cols-3">
-        <ContainerCard class="md:col-span-2">
+      <div class="grid grid-cols-1 gap-4 sm:gap-10 lg:grid-cols-3">
+        <ContainerCard class="lg:col-span-2">
           <GistDetails :details="details" />
 
           <template #corner-actions>

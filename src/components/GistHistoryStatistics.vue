@@ -43,10 +43,10 @@ const totals = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col items-center">
     <div class="mb-4 font-semibold">Revisions</div>
 
-    <div class="mb-4 flex items-center gap-2">
+    <div class="mb-4 flex w-full items-center justify-center gap-2">
       <input
         type="date"
         v-model="start"
