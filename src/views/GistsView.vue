@@ -86,8 +86,8 @@ const totals = computed(() => [
 <template>
   <div>
     <div class="mb-4 grid grid-cols-1 gap-4 sm:gap-10 md:grid-cols-3">
-      <div class="flex justify-between md:col-span-2">
-        <div class="flex items-center gap-2">
+      <div class="flex flex-col justify-between sm:flex-row md:col-span-2">
+        <div class="flex flex-col items-center gap-2 sm:flex-row">
           <InputTagFilters
             :options="typeOptions"
             :selected="[selectedType]"
@@ -96,7 +96,7 @@ const totals = computed(() => [
             @update:selected="updateFilters({ type: $event[0].id })"
           />
 
-          <span class="h-4 border-l text-gray-300" />
+          <span class="hidden h-4 border-l text-gray-300 sm:inline" />
 
           <InputTagFilters
             :options="visibilityOptions"
@@ -106,7 +106,12 @@ const totals = computed(() => [
           />
         </div>
 
-        <InputButton class="text-lg" icon variant="primary" :to="{ name: 'gist-new' }">
+        <InputButton
+          class="fixed bottom-4 right-4 z-10 text-lg sm:static"
+          icon
+          variant="primary"
+          :to="{ name: 'gist-new' }"
+        >
           <IconPlus />
         </InputButton>
       </div>
@@ -123,7 +128,7 @@ const totals = computed(() => [
         </FadeTransition>
       </div>
 
-      <div class="p-4">
+      <div class="mx-auto p-4">
         <ChartTotals :totals="totals" />
       </div>
     </main>

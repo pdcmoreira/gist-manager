@@ -72,13 +72,15 @@ const optionClick = (option) => {
 </script>
 
 <template>
-  <InputTag
-    v-for="option in options"
-    :key="option.id"
-    clickable
-    :selected="selected.includes(option)"
-    @click="optionClick(option)"
-  >
-    {{ option.name }}
-  </InputTag>
+  <div class="flex items-center gap-2">
+    <InputTag
+      v-for="option in options"
+      :key="option.id"
+      clickable
+      :selected="selected.includes(option)"
+      @click="optionClick(option)"
+    >
+      {{ option.name }}
+    </InputTag>
+  </div>
 </template>

@@ -36,13 +36,18 @@ const filesCount = computed(() => Object.keys(props.gist.files).length)
 
       <div class="flex grow flex-col overflow-hidden">
         <div class="overflow-hidden overflow-ellipsis whitespace-nowrap">
-          <span @click.stop>
-            <a class="text-gray-600 hover:underline" :href="gist.owner.html_url" target="_blank">{{
-              gist.owner.login
-            }}</a>
-          </span>
+          <span class="hidden sm:inline">
+            <span @click.stop>
+              <a
+                class="text-gray-600 hover:underline"
+                :href="gist.owner.html_url"
+                target="_blank"
+                >{{ gist.owner.login }}</a
+              >
+            </span>
 
-          <span class="px-2">/</span>
+            <span class="px-2">/</span>
+          </span>
 
           <span class="font-semibold">{{ mainFile.filename }}</span>
         </div>
@@ -51,7 +56,7 @@ const filesCount = computed(() => Object.keys(props.gist.files).length)
       </div>
     </div>
 
-    <div class="flex shrink-0 items-center gap-1">
+    <div class="flex shrink-0 flex-col items-center gap-1 sm:flex-row md:flex-col lg:flex-row">
       <GistBadge>{{ visibility }}</GistBadge>
 
       <GistBadge>{{ filesCount }} files</GistBadge>
