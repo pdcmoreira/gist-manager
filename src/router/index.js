@@ -40,7 +40,10 @@ const router = createRouter({
     // Handled by the authorization flow, which should navigate away from it.
     {
       path: '/authorize',
-      name: 'authorize'
+      name: 'authorize',
+      meta: {
+        allowGuest: true
+      }
     }
   ]
 })
