@@ -1,6 +1,6 @@
 <script setup>
 import { computed, watch } from 'vue'
-import { useRouter, RouterView } from 'vue-router'
+import { useRouter, useRoute, RouterView } from 'vue-router'
 import { useGithubOAuthFlow } from '@/composables/useGithubOAuthFlow'
 import { useUserStore } from '@/stores/user'
 import { useGistStore } from '@/stores/gist'
@@ -10,6 +10,8 @@ import NavBar from '@/components/NavBar.vue'
 import InputButton from '@/components/InputButton.vue'
 
 const router = useRouter()
+
+const route = useRoute()
 
 const userStore = useUserStore()
 
@@ -40,6 +42,8 @@ watch(
 
   { immediate: true }
 )
+
+const landingMode = computed(() => !!route.meta.landing)
 </script>
 
 <template>
@@ -51,7 +55,7 @@ watch(
     </div>
 
     <div v-else class="mx-auto p-4 sm:max-w-6xl sm:p-10">
-      <NavBar class="mb-4 sm:mb-10">
+      <NavBar :transparent="landingMode" class="mb-4 sm:mb-10">
         <div>
           <InputButton v-if="!userStore.isLoggedIn" variant="primary" :href="authorizeUrl">
             Log in with GitHub

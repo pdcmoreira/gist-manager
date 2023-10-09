@@ -10,7 +10,8 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        allowGuest: true
+        allowGuest: true,
+        landing: true
       }
     },
     {

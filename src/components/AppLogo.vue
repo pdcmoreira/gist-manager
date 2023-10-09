@@ -6,7 +6,7 @@ import IconCodeBracketSquare from '@/components/icons/IconCodeBracketSquare.vue'
   <div class="flex items-center leading-5 text-gray-700">
     <IconCodeBracketSquare class="!h-12 !w-12" />
 
-    <div class="flex flex-col px-2 font-mono font-semibold">
+    <div class="hidden flex-col px-2 font-mono font-semibold min-[450px]:flex">
       <span>Gist</span>
       <span>Manager</span>
     </div>
