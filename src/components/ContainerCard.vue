@@ -1,6 +1,6 @@
 <template>
   <div class="relative rounded-lg border border-gray-100 bg-white shadow-md">
-    <div>
+    <div class="w-full">
       <slot />
     </div>
 
