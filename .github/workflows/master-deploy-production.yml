@@ -1,0 +1,44 @@
+name: On push master, deploy production
+
+on:
+  push:
+    branches: ['main']
+
+  workflow_dispatch:
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'pnpm'
+
+      - name: Install packages
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+        env:
+          VITE_GH_CLIENT_ID: ${{ secrets.VITE_GH_CLIENT_ID }}
+          VITE_GH_GATEWAY_URL: ${{ secrets.VITE_GH_GATEWAY_URL }}
+
+      - name: Deploy
+        uses: reggionick/s3-deploy@v4
+        with:
+          folder: dist
+          bucket: ${{ secrets.S3_BUCKET }}
+          bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+          delete-removed: true
+          private: true
